@@ -24,8 +24,8 @@ client.connect(function(err) {
   //   console.log(res);
   // })
 
-  db.collection('Todos').updateOne({name:'Roman'}, {$set:{name:'Dmitri'}}).then((res)=> {
-    console.log(res);
+  db.collection('Todos').findOneAndUpdate({name:'Roman'}, {$set:{name:'Dmitri'},$inc:{age:3}}, {returnOriginal: false}).then((res)=> {
+    console.log(JSON.stringify(res.value, undefined, 2));
   },(err) => {
     console.log(err);
   })
