@@ -3,6 +3,16 @@ const request = require('supertest');
 
 const{app} = require('./../server.js');
 const{Todo} = require('./../models/todo.js');
+const{ObjecID} = require('mongodb');
+
+const todos =[{
+  _id: new ObjectID(),
+  text:'First test todo'
+},{
+  _id: new ObjectID(),
+  text: 'Second test todo'
+  }
+]
 
 beforeEach((done) => {
   Todo.remove({}).then(() => {
@@ -53,3 +63,12 @@ describe('POST /todos', () => {
 
   })
 });
+
+describe('GET /todos/:id', () => {
+  it('should fetch todo by id', (done) => {
+    request(app)
+      .get(`/todos/${todos[0]._id.toHexString()}`)
+      .expect(200)
+      .expect(res.body._id.toBe(todos[0]._id));
+  })
+})
